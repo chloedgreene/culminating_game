@@ -1,113 +1,220 @@
-# SPDX-License-Identifier: CC0-1.0
-#
-# SPDX-FileContributor: Antonio Niño Díaz, 2023
+#---------------------------------------------------------------------------------
+.SUFFIXES:
+#---------------------------------------------------------------------------------
 
-BLOCKSDS	?= /opt/blocksds/core
-BLOCKSDSEXT	?= /opt/blocksds/external
-
-# User config
-# ===========
-
-NAME		:= CULMINAITNG_GAME
-
-GAME_TITLE	:= Game-Sorta-Thingy
-GAME_SUBTITLE	:= Made by Chloe Greene
-GAME_AUTHOR	:= github.com/chloedgreene/culminating_game
-GAME_ICON	:= icon.bmp
-
-# DLDI and internal SD slot of DSi
-# --------------------------------
-
-# Root folder of the SD image
-SDROOT		:= sdroot
-# Name of the generated image it "DSi-1.sd" for no$gba in DSi mode
-SDIMAGE		:= image.bin
-
-# Source code paths
-# -----------------
-
-
-# A single directory that is the root of NitroFS:
-NITROFSDIR	:=
-
-# Tools
-# -----
-
-MAKE		:= make
-RM		:= rm -rf
-
-# Verbose flag
-# ------------
-
-ifeq ($(VERBOSE),1)
-V		:=
-else
-V		:= @
+ifeq ($(strip $(DEVKITARM)),)
+$(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM")
 endif
 
-# Directories
-# -----------
+# These set the information text in the nds file
+#GAME_TITLE     := My Wonderful Homebrew
+#GAME_SUBTITLE1 := built with devkitARM
+#GAME_SUBTITLE2 := http://devitpro.org
 
-ARM9DIR		:= arm9
-ARM7DIR		:= arm7
+include $(DEVKITARM)/ds_rules
 
-# Build artfacts
-# --------------
+#---------------------------------------------------------------------------------
+# TARGET is the name of the output
+# BUILD is the directory where object files & intermediate files will be placed
+# SOURCES is a list of directories containing source code
+# INCLUDES is a list of directories containing extra header files
+# DATA is a list of directories containing binary files embedded using bin2o
+# GRAPHICS is a list of directories containing image files to be converted with grit
+# AUDIO is a list of directories containing audio to be converted by maxmod
+# ICON is the image used to create the game icon, leave blank to use default rule
+# NITRO is a directory that will be accessible via NitroFS
+#---------------------------------------------------------------------------------
+TARGET   := $(shell basename $(CURDIR))
+BUILD    := build
+SOURCES  := source
+INCLUDES := include
+DATA     := data
+GRAPHICS :=
+AUDIO    :=
+ICON     :=
 
-ROM		:= $(NAME).nds
+# specify a directory which contains the nitro filesystem
+# this is relative to the Makefile
+NITRO    :=
 
-# Targets
-# -------
+#---------------------------------------------------------------------------------
+# options for code generation
+#---------------------------------------------------------------------------------
+ARCH := -marm -mthumb-interwork -march=armv5te -mtune=arm946e-s
 
-.PHONY: all clean arm9 arm7 dldipatch sdimage
+CFLAGS   := -g -Wall -O3\
+            $(ARCH) $(INCLUDE) -DARM9
+CXXFLAGS := $(CFLAGS) -fno-rtti -fno-exceptions
+ASFLAGS  := -g $(ARCH)
+LDFLAGS   = -specs=ds_arm9.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
+#---------------------------------------------------------------------------------
+# any extra libraries we wish to link with the project (order is important)
+#---------------------------------------------------------------------------------
+LIBS := -lnds9
 
+# automatigically add libraries for NitroFS
+ifneq ($(strip $(NITRO)),)
+LIBS := -lfilesystem -lfat $(LIBS)
+endif
+# automagically add maxmod library
+ifneq ($(strip $(AUDIO)),)
+LIBS := -lmm9 $(LIBS)
+endif
 
-all: $(ROM)
+#---------------------------------------------------------------------------------
+# list of directories containing libraries, this must be the top level containing
+# include and lib
+#---------------------------------------------------------------------------------
+LIBDIRS := $(LIBNDS) $(PORTLIBS)
 
-run: $(ROM)
-	net.kuribo64.melonDS $(ROM)
+#---------------------------------------------------------------------------------
+# no real need to edit anything past this point unless you need to add additional
+# rules for different file extensions
+#---------------------------------------------------------------------------------
+ifneq ($(BUILD),$(notdir $(CURDIR)))
+#---------------------------------------------------------------------------------
 
+export OUTPUT := $(CURDIR)/$(TARGET)
 
+export VPATH := $(CURDIR)/$(subst /,,$(dir $(ICON)))\
+                $(foreach dir,$(SOURCES),$(CURDIR)/$(dir))\
+                $(foreach dir,$(DATA),$(CURDIR)/$(dir))\
+                $(foreach dir,$(GRAPHICS),$(CURDIR)/$(dir))
+
+export DEPSDIR := $(CURDIR)/$(BUILD)
+
+CFILES   := $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
+CPPFILES := $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
+SFILES   := $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
+PNGFILES := $(foreach dir,$(GRAPHICS),$(notdir $(wildcard $(dir)/*.png)))
+BINFILES := $(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
+
+# prepare NitroFS directory
+ifneq ($(strip $(NITRO)),)
+  export NITRO_FILES := $(CURDIR)/$(NITRO)
+endif
+
+# get audio list for maxmod
+ifneq ($(strip $(AUDIO)),)
+  export MODFILES	:=	$(foreach dir,$(notdir $(wildcard $(AUDIO)/*.*)),$(CURDIR)/$(AUDIO)/$(dir))
+
+  # place the soundbank file in NitroFS if using it
+  ifneq ($(strip $(NITRO)),)
+    export SOUNDBANK := $(NITRO_FILES)/soundbank.bin
+
+  # otherwise, needs to be loaded from memory
+  else
+    export SOUNDBANK := soundbank.bin
+    BINFILES += $(SOUNDBANK)
+  endif
+endif
+
+#---------------------------------------------------------------------------------
+# use CXX for linking C++ projects, CC for standard C
+#---------------------------------------------------------------------------------
+ifeq ($(strip $(CPPFILES)),)
+#---------------------------------------------------------------------------------
+  export LD := $(CC)
+#---------------------------------------------------------------------------------
+else
+#---------------------------------------------------------------------------------
+  export LD := $(CXX)
+#---------------------------------------------------------------------------------
+endif
+#---------------------------------------------------------------------------------
+
+export OFILES_BIN   :=	$(addsuffix .o,$(BINFILES))
+
+export OFILES_SOURCES := $(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o)
+
+export OFILES := $(PNGFILES:.png=.o) $(OFILES_BIN) $(OFILES_SOURCES)
+
+export HFILES := $(PNGFILES:.png=.h) $(addsuffix .h,$(subst .,_,$(BINFILES)))
+
+export INCLUDE  := $(foreach dir,$(INCLUDES),-iquote $(CURDIR)/$(dir))\
+                   $(foreach dir,$(LIBDIRS),-I$(dir)/include)\
+                   -I$(CURDIR)/$(BUILD)
+export LIBPATHS := $(foreach dir,$(LIBDIRS),-L$(dir)/lib)
+
+ifeq ($(strip $(ICON)),)
+  icons := $(wildcard *.bmp)
+
+  ifneq (,$(findstring $(TARGET).bmp,$(icons)))
+    export GAME_ICON := $(CURDIR)/$(TARGET).bmp
+  else
+    ifneq (,$(findstring icon.bmp,$(icons)))
+      export GAME_ICON := $(CURDIR)/icon.bmp
+    endif
+  endif
+else
+  ifeq ($(suffix $(ICON)), .grf)
+    export GAME_ICON := $(CURDIR)/$(ICON)
+  else
+    export GAME_ICON := $(CURDIR)/$(BUILD)/$(notdir $(basename $(ICON))).grf
+  endif
+endif
+
+.PHONY: $(BUILD) clean
+
+#---------------------------------------------------------------------------------
+$(BUILD):
+	@mkdir -p $@
+	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
+
+#---------------------------------------------------------------------------------
 clean:
-	@echo "  CLEAN"
-	$(V)$(MAKE) -f Makefile.arm9 clean --no-print-directory
-	$(V)$(MAKE) -f Makefile.arm7 clean --no-print-directory
-	$(V)$(RM) $(ROM) build $(SDIMAGE)
+	@echo clean ...
+	@rm -fr $(BUILD) $(TARGET).elf $(TARGET).nds $(SOUNDBANK)
 
-arm9:
-	$(V)+$(MAKE) -f Makefile.arm9 --no-print-directory
-
-arm7:
-	$(V)+$(MAKE) -f Makefile.arm7 --no-print-directory
-
-ifneq ($(strip $(NITROFSDIR)),)
-# Additional arguments for ndstool
-NDSTOOL_ARGS	:= -d $(NITROFSDIR)
-
-# Make the NDS ROM depend on the filesystem only if it is needed
-$(ROM): $(NITROFSDIR)
-endif
-
-# Combine the title strings
-ifeq ($(strip $(GAME_SUBTITLE)),)
-    GAME_FULL_TITLE := $(GAME_TITLE);$(GAME_AUTHOR)
+#---------------------------------------------------------------------------------
 else
-    GAME_FULL_TITLE := $(GAME_TITLE);$(GAME_SUBTITLE);$(GAME_AUTHOR)
+
+#---------------------------------------------------------------------------------
+# main targets
+#---------------------------------------------------------------------------------
+$(OUTPUT).nds: $(OUTPUT).elf $(NITRO_FILES) $(GAME_ICON)
+$(OUTPUT).elf: $(OFILES)
+
+# source files depend on generated headers
+$(OFILES_SOURCES) : $(HFILES)
+
+# need to build soundbank first
+$(OFILES): $(SOUNDBANK)
+
+#---------------------------------------------------------------------------------
+# rule to build solution from music files
+#---------------------------------------------------------------------------------
+$(SOUNDBANK) : $(MODFILES)
+#---------------------------------------------------------------------------------
+	mmutil $^ -d -o$@ -hsoundbank.h
+
+#---------------------------------------------------------------------------------
+%.bin.o %_bin.h : %.bin
+#---------------------------------------------------------------------------------
+	@echo $(notdir $<)
+	@$(bin2o)
+
+#---------------------------------------------------------------------------------
+# This rule creates assembly source files using grit
+# grit takes an image file and a .grit describing how the file is to be processed
+# add additional rules like this for each image extension
+# you use in the graphics folders
+#---------------------------------------------------------------------------------
+%.s %.h: %.png %.grit
+#---------------------------------------------------------------------------------
+	grit $< -fts -o$*
+
+#---------------------------------------------------------------------------------
+# Convert non-GRF game icon to GRF if needed
+#---------------------------------------------------------------------------------
+$(GAME_ICON): $(notdir $(ICON))
+#---------------------------------------------------------------------------------
+	@echo convert $(notdir $<)
+	@grit $< -g -gt -gB4 -gT FF00FF -m! -p -pe 16 -fh! -ftr
+
+-include $(DEPSDIR)/*.d
+
+#---------------------------------------------------------------------------------------
 endif
-
-$(ROM): arm9 arm7
-	@echo "  NDSTOOL $@"
-	$(V)$(BLOCKSDS)/tools/ndstool/ndstool -c $@ \
-		-7 build/arm7.elf -9 build/arm9.elf \
-		-b $(GAME_ICON) "$(GAME_FULL_TITLE)" \
-		$(NDSTOOL_FAT)
-
-sdimage:
-	@echo "  MKFATIMG $(SDIMAGE) $(SDROOT)"
-	$(V)$(BLOCKSDS)/tools/mkfatimg/mkfatimg -t $(SDROOT) $(SDIMAGE)
-
-dldipatch: $(ROM)
-	@echo "  DLDIPATCH $(ROM)"
-	$(V)$(BLOCKSDS)/tools/dldipatch/dldipatch patch \
-		$(BLOCKSDS)/sys/dldi_r4/r4tf.dldi $(ROM)
+#---------------------------------------------------------------------------------------

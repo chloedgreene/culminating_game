@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="CMakePresetLoader"><![CDATA[{
+  "useNewFormat": true
+}]]></component>
+  <component name="CMakeReloadState">
+    <option name="reloaded" value="true" />
+  </component>
+  <component name="CMakeRunConfigurationManager">
+    <generated>
+      <config projectName="culminating_game" targetName="culminating_game" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="233d775e-cd96-439d-b113-9a9a138292b2" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAUL_DEBUG.nds" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/8C8952203-130911-ent-saulgoodman-hmed-193127274.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/ball.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/bettercallsaullogo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/bg2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/bg3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/bread_start_button.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/button.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/character.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/convert.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/genericBackground-bread.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/genericBackground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/main.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/nfl.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/rawbread.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/saulgoodman.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/culminating_game.elf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/culminating_game.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/source/main.c.d" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/source/main.c.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/culminating_game.nds" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/icon.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/modes.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/include/nf_2d.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/include/nf_3d.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/include/nf_affinebg.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/include/nf_basic.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/include/nf_bitmapbg.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/include/nf_collision.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/include/nf_lib.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/include/nf_media.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/include/nf_mixedbg.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/include/nf_sound.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/include/nf_sprite256.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/include/nf_sprite3d.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/include/nf_text.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/include/nf_text16.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/include/nf_tiledbg.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/include/nf_wifi.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/source/nf_2d.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/source/nf_3d.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/source/nf_affinebg.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/source/nf_basic.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/source/nf_bitmapbg.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/source/nf_collision.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/source/nf_media.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/source/nf_mixedbg.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/source/nf_sound.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/source/nf_sprite256.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/source/nf_sprite3d.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/source/nf_text.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/source/nf_text16.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/source/nf_tiledbg.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nflib/source/nf_wifi.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/bg/bg2.img" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/bg/bg2.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/bg/bg2.pal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/bg/bg3.img" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/bg/bg3.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/bg/bg3.pal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/bg/genericBackground-bread.img" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/bg/genericBackground-bread.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/bg/genericBackground-bread.pal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/bg/genericBackground.img" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/bg/genericBackground.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/bg/genericBackground.pal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/bg/main.img" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/bg/main.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/bg/main.pal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/bg/nfl.img" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/bg/nfl.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/bg/nfl.pal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/bg/saulgoodman.img" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/bg/saulgoodman.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/bg/saulgoodman.pal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/sprite/ball.img" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/sprite/ball.pal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/sprite/bg2.img" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/sprite/bg2.pal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/sprite/bg3.img" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/sprite/bg3.pal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/sprite/button.img" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/sprite/button.pal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/sprite/character.img" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/sprite/character.pal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/sprite/nfl.img" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/sprite/nfl.pal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/sprite/saulgoodman.img" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitrofiles/sprite/saulgoodman.pal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/main.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/menu.h" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="h09j2at0" />
+  </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="CLion" />
+    <option name="majorVersion" value="2023" />
+    <option name="minorVersion" value="2.2" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 0
+}]]></component>
+  <component name="ProjectId" id="2Z58bGEL7pV3UBterim0nE2dCI9" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "master",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="culminating_game" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="culminating_game" TARGET_NAME="culminating_game" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="culminating_game" RUN_TARGET_NAME="culminating_game">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="233d775e-cd96-439d-b113-9a9a138292b2" name="Changes" comment="" />
+      <created>1701700649125</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1701700649125</updated>
+      <workItem from="1701700650544" duration="1375000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VCPKGProject">
+    <isAutomaticEditVcpkgJson value="false" />
+    <isAutomaticCheckingOnLaunch value="false" />
+    <isAutomaticFoundErrors value="true" />
+    <isAutomaticFoundErrors value="true" />
+  </component>
+</project>

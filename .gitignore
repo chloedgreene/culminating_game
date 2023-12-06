@@ -1,4 +1,1 @@
-*.nds
-*.sav
-build
-soundbank.bin
+/target
