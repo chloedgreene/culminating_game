@@ -1,0 +1,16 @@
+[package]
+name = "culminating_game"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[profile.dev]
+overflow-checks = false # Overflowing values are nessesary for the emulator to work properly
+
+[dependencies]
+log = "0.4.20"
+
+[dependencies.simple_logger]
+default-features = false
+features = ["colors"]
