@@ -30,6 +30,7 @@ enum videomode_t {
     force_size_videomode = 0x7ffffff // ensure videomode_t is 32-bit value
 };
 
+
 void setvideomode( enum videomode_t mode );
 void setdoublebuffer( int enabled );
 int screenwidth( void );
@@ -3004,6 +3005,10 @@ static int app_proc( app_t* app, void* user_data ) {
     bool fullscreen = true;
     #else
     bool fullscreen = false;
+    #endif
+
+    #ifdef FULLSCREEN
+    fullscreen = false;
     #endif
    
     int modargc = 0;

@@ -1,107 +1,60 @@
-// #include <stdlib.h>
-// #include <stdio.h>
-// #include "dos.h"
-
-// #define MAX_OBJECTS 1024
-
-// typedef enum{
-//     NoneItem,
-//     Ore = 25,
-//     Mineral = 88,
-//     RefinedMaterial = 101,
-// }item_type;
-
-// typedef enum{
-//     NonePart,
-//     Pusher,
-// }part_type;
-
-// typedef struct{
-//     int x;
-//     int y;
-//     item_type type;
-// }item;
-
-// typedef struct
-// {
-//     int x;
-//     int y;
-//     part_type part;
-// }part;
-
-
-// item items[MAX_OBJECTS];
-// int items_index = 0;
-// part parts[MAX_OBJECTS];
-// int parts_index = 0;
-
-
-
-
-// int main(int argc, char const *argv[])
-// {
-
-//     for(int i = 0; i < MAX_OBJECTS;i++){
-//         items[i] = (item){0,0,NoneItem};
-//         parts[i] = (part){0,0,NonePart};
-//     }
-
-//     items[items_index] = (item){2,2,Ore};
-//     items_index++;
-//     items[items_index] = (item){2,3,Mineral};
-//     items_index++;
-//     items[items_index] = (item){3,2,RefinedMaterial};
-//     items_index++;
-
-
-//     parts[parts_index] = (part){2,2,Pusher};
-//     parts_index++;
-
-
-
-//     setvideomode(videomode_320x200);
-//     setdoublebuffer(1);
-
-//     while(!shuttingdown()){
-
-//         if(keystate(KEY_MBUTTON)){
-//             parts[parts_index] = (part){mousex(),mousey(),Pusher};
-//             parts_index++;   
-//         }
-
-//         clearscreen();
-//         for(int i = 0; i < MAX_OBJECTS;i++){
-//             if(parts[i].part != NonePart){
-//                 setcolor(parts[i].part);
-//                 bar(parts[i].x*10,parts[i].y*10,10,10);
-//             }
-//         }   
-
-//         for(int i = 0; i < MAX_OBJECTS;i++){
-//             if(items[i].type != NoneItem){
-//                 //these are real items in the list, now we do a lil t o m f u c k e r y
-//                 setcolor(items[i].type);
-//                 bar(items[i].x*5,items[i].y*5,5,5);
-//             }
-//         }
-
-//         bar(mousex()+2,mousey()+2,4,4);
-        
-
-    
-//         swapbuffers();
-//     }
-//     return 0;
-// }
-
-
 
 #include <stddef.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <math.h>
 #include "dos.h"
 
+#define rad2deg 57.2957795131
+
+struct {
+    float x;       
+    float y;        
+    float height;   
+    float angle;    
+    float horizon;  
+    float distance; 
+} camera = { 0, -100, 0, 180/rad2deg, 100, 800 };
+
+struct ScreenCoordinates {
+    int x;
+    int y;
+};
+
+struct ScreenCoordinates worldToScreen(float worldX, float worldY, float worldZ) {
+    // attempts in desmos to solve this problem
+    //https://www.desmos.com/calculator/xjy1majyyx
+    //https://www.desmos.com/calculator/hksoyyyyf1
+    struct ScreenCoordinates screenCoords;
+
+    //we setup debug symbols
+    circle(300,180,15);
+    rectangle(300,180,1,1);
+    setcolor(189);
+    rectangle(300 + (sin(camera.angle) * 15),180 + (cos(camera.angle)* 15),1,1);
+    setcolor(120);
+    float point_angle = atan2(worldX - camera.x,worldY - camera.y);
+    rectangle(300 + (-sin(point_angle) * 10),180 + (-cos(point_angle)* 10),1,1);
+    setcolor(255);
+    rectangle(300-15,180-20,30,0);
+    setcolor(189);
+    float point = sin(point_angle-camera.angle);
+    screenCoords.x = ((point)* 320) + (320/2) - 194;
+    screenCoords.y = (100 + worldZ + camera.height) + camera.horizon;
+    char str[80];
+    sprintf(str, "CA,WA,PA | %f, %f", camera.angle * rad2deg ,point_angle * rad2deg,point);
+    outtextxy( 10, 10 + (8*2), str);
+
+    if(camera.angle < point_angle){
+        screenCoords.x = -69;
+    }
+
+    return screenCoords;
+}
+
+
 int main( int argc, char* argv[] ) {
+
     setvideomode( videomode_320x200 ); 
 
     uint8_t palette[ 768 ];
@@ -114,14 +67,8 @@ int main( int argc, char* argv[] ) {
     }
     setpal( 0, 36, 36, 56 );
 
-    struct {
-        float x;       
-        float y;        
-        float height;   
-        float angle;    
-        float horizon;  
-        float distance; 
-    } camera = { 512, 800, 78, 0, 100, 800 };
+    
+
 
     setdoublebuffer( 1 );
     uint8_t* screen = screenbuffer();
@@ -130,27 +77,29 @@ int main( int argc, char* argv[] ) {
         waitvbl();
         clearscreen();        
 
+        float speed = 3;
+
         if( keystate( KEY_A ) ) camera.angle += 0.02f;
         if( keystate( KEY_D ) ) camera.angle -= 0.02f;
         if( keystate( KEY_W ) ) {
-            camera.x -= (float)sin( camera.angle ) * 1.1f;
-            camera.y -= (float)cos( camera.angle ) * 1.1f;
+            camera.x -= (float)sin( camera.angle ) * 1.1 / speed;
+            camera.y -= (float)cos( camera.angle ) * 1.1 / speed;
         }
         if( keystate( KEY_S ) ) {
-            camera.x += (float)sin( camera.angle ) * 0.75f;
-            camera.y += (float)cos( camera.angle ) * 0.75f;
+            camera.x += (float)sin( camera.angle ) * 0.75f / speed;
+            camera.y += (float)cos( camera.angle ) * 0.75f / speed;
         }
         if( keystate( KEY_RIGHT ) ) camera.height += 0.5f;
         if( keystate( KEY_LEFT ) ) camera.height -= 0.5f;
-        if( keystate( KEY_DOWN ) ) camera.horizon += 1.5f;
-        if( keystate( KEY_UP ) ) camera.horizon -= 1.5f;
+        if( keystate( KEY_UP ) ) camera.horizon += 1.5f;
+        if( keystate( KEY_DOWN ) ) camera.horizon -= 1.5f;
 
         int mapwidthperiod = mapwidth - 1;
         int mapheightperiod = mapheight - 1;
         int mapshift = 10;
 
         int cameraoffs = ( ( ((int)camera.y) & mapwidthperiod ) << mapshift ) + ( ((int)camera.x) & mapheightperiod );
-        if( ( mapalt[ cameraoffs ] + 10.0f ) > camera.height ) camera.height = mapalt[ cameraoffs ] + 10.0f;
+        camera.height = mapalt[ cameraoffs ] + 10.0f; // makes player stick to floor
 
         int screenwidth = 320;
         int screenheight = 200;
@@ -186,6 +135,20 @@ int main( int argc, char* argv[] ) {
             }
             deltaz += 0.005f;
         }
+
+        setcolor( 255 );
+        char str[80];
+        sprintf(str, "X,Y,Z | %f, %f, %f", camera.x,camera.y,camera.height);
+        outtextxy( 10, 10, str);
+
+        char str2[80];
+        struct ScreenCoordinates screenCoords = worldToScreen(0,0,-100);
+        sprintf(str2, "BX,BY,BD | %d, %d", screenCoords.x,screenCoords.y);
+        outtextxy( 10, 18, str2);
+
+        setcolor(255);
+        rectangle(screenCoords.x,screenCoords.y,10,10);
+        
         
 
         screen = swapbuffers();
