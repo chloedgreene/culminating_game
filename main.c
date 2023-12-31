@@ -67,7 +67,7 @@ int main( int argc, char* argv[] ) {
     uint8_t palette[ 768 ];
     int mapwidth, mapheight, palcount;
     mapcol = loadgif( "files/C2.gif", &mapwidth, &mapheight, &palcount, palette );    
-    mapalt = loadgif( "files/D1.gif", &mapwidth, &mapheight, NULL, NULL );    
+    mapalt = loadgif( "files/h2.gif", &mapwidth, &mapheight, NULL, NULL );    
 
     for( int i = 0; i < palcount; ++i ) {
         setpal(i, palette[ 3 * i + 0 ],palette[ 3 * i + 1 ], palette[ 3 * i + 2 ] );
@@ -106,7 +106,7 @@ int main( int argc, char* argv[] ) {
         int mapshift = 10;
 
         int cameraoffs = ( ( ((int)camera.y) & mapwidthperiod ) << mapshift ) + ( ((int)camera.x) & mapheightperiod );
-        camera.height = mapalt[ cameraoffs ] + 10.0f; // makes player stick to floor
+        //camera.height = mapalt[ cameraoffs ] + 10.0f; // makes player stick to floor
 
         int screenwidth = 320;
         int screenheight = 200;
@@ -130,7 +130,7 @@ int main( int argc, char* argv[] ) {
             float invz = 1.0f / z * 100.0f;
             for( int i = 0; i < screenwidth; ++i ) {
                 int mapoffset = ( ( ((int)ply) & mapwidthperiod ) << mapshift ) + ( ((int)plx) & mapheightperiod );
-                int heightonscreen = (int)( ( camera.height - mapalt[ mapoffset ] ) * invz + camera.horizon );
+                int heightonscreen = (int)( ( camera.height - (mapalt[ mapoffset ]) ) * invz + camera.horizon );
                 if( heightonscreen < 0 ) heightonscreen = 0;
                 int col = mapcol[ mapoffset ];
                 for( int y = heightonscreen; y < hiddeny[ i ]; ++y ) {
