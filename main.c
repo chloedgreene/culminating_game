@@ -39,11 +39,14 @@ struct ScreenCoordinates worldToScreen(float worldX, float worldY, float worldZ)
     rectangle(300-15,180-20,30,0);
     setcolor(189);
     float point = sin(point_angle-camera.angle);
-    screenCoords.x = ((point)* 320) + (320/2) - 194;
-    screenCoords.y = (100 + worldZ + camera.height) + camera.horizon;
+    screenCoords.y = (100 + worldZ) + camera.horizon;
     char str[80];
-    sprintf(str, "CA,WA,PA | %f, %f", camera.angle * rad2deg ,point_angle * rad2deg,point);
+    float difference = (fmod(camera.angle,M_PI*2)-fmod(point_angle,M_PI*2) - M_PI);
+    sprintf(str, "%f", difference);
     outtextxy( 10, 10 + (8*2), str);
+    difference = difference + cos(difference);
+    screenCoords.x = (difference * (320/2)) + (320/2);
+
 
     if(camera.angle < point_angle){
         screenCoords.x = -69;
@@ -77,7 +80,7 @@ int main( int argc, char* argv[] ) {
         waitvbl();
         clearscreen();        
 
-        float speed = 3;
+        float speed = 2.5;
 
         if( keystate( KEY_A ) ) camera.angle += 0.02f;
         if( keystate( KEY_D ) ) camera.angle -= 0.02f;
@@ -142,7 +145,7 @@ int main( int argc, char* argv[] ) {
         outtextxy( 10, 10, str);
 
         char str2[80];
-        struct ScreenCoordinates screenCoords = worldToScreen(0,0,-100);
+        struct ScreenCoordinates screenCoords = worldToScreen(434,164,-110);
         sprintf(str2, "BX,BY,BD | %d, %d", screenCoords.x,screenCoords.y);
         outtextxy( 10, 18, str2);
 
