@@ -5,6 +5,8 @@
 #include <math.h>
 #include "dos.h"
 
+#include "cmath.h"
+
 #define rad2deg 57.2957795131
 
 struct {
@@ -21,8 +23,7 @@ struct ScreenCoordinates {
     int y;
     int size;
 };
-
-struct ScreenCoordinates worldToScreen(float worldX, float worldY, float worldZ) {
+struct ScreenCoordinates worldToScreen(float worldX, float worldY, float worldZ,float init_size) {
     // attempts in desmos to solve this problem
     //https://www.desmos.com/calculator/xjy1majyyx
     //https://www.desmos.com/calculator/hksoyyyyf1
@@ -44,9 +45,9 @@ struct ScreenCoordinates worldToScreen(float worldX, float worldY, float worldZ)
     float difference = (fmod(camera.angle,M_PI*2)-fmod(point_angle,M_PI*2) - M_PI);
     screenCoords.x = (difference * (320/2)) + (320/2);
     float dist = calculateDistance(worldX,worldY,worldZ,camera.x,camera.y,camera.height);
-    float size = 10;
+    float size = init_size;
     size = size / map(dist,0,1024,0,128);
-    size = size * 10;
+    size = size * init_size;
 
 
     if(camera.angle < point_angle){
@@ -56,23 +57,8 @@ struct ScreenCoordinates worldToScreen(float worldX, float worldY, float worldZ)
     return screenCoords;
 }
 
-float calculateDistance(float x1, float y1, float z1, float x2, float y2, float z2) {
-    float dx = x2 - x1;
-    float dy = y2 - y1;
-    float dz = z2 - z1;
-
-    return sqrt(dx * dx + dy * dy + dz * dz);
-}
-
-float map(float value, 
-                              float istart, 
-                              float istop, 
-                              float ostart, 
-                              float ostop) {
-    return ostart + (ostop - ostart) * ((value - istart) / (istop - istart));
-}
-
-
+uint8_t* mapcol;
+uint8_t* mapalt;
 
 int main( int argc, char* argv[] ) {
 
@@ -80,8 +66,8 @@ int main( int argc, char* argv[] ) {
 
     uint8_t palette[ 768 ];
     int mapwidth, mapheight, palcount;
-    uint8_t* mapcol = loadgif( "files/C1W.gif", &mapwidth, &mapheight, &palcount, palette );    
-    uint8_t* mapalt = loadgif( "files/D1.gif", &mapwidth, &mapheight, NULL, NULL );    
+    mapcol = loadgif( "files/C2.gif", &mapwidth, &mapheight, &palcount, palette );    
+    mapalt = loadgif( "files/D1.gif", &mapwidth, &mapheight, NULL, NULL );    
 
     for( int i = 0; i < palcount; ++i ) {
         setpal(i, palette[ 3 * i + 0 ],palette[ 3 * i + 1 ], palette[ 3 * i + 2 ] );
@@ -163,7 +149,7 @@ int main( int argc, char* argv[] ) {
         // outtextxy( 10, 10, str);
 
         //char str2[80];
-        struct ScreenCoordinates screenCoords = worldToScreen(434,164,-110);
+        struct ScreenCoordinates screenCoords = worldToScreen(434,164,-110,10);
         //outtextxy( 10, 18, str2);
         float dist = calculateDistance(434,164,0,camera.x,camera.y,camera.height);
         float size = 10;
