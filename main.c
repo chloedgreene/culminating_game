@@ -19,6 +19,7 @@ struct {
 struct ScreenCoordinates {
     int x;
     int y;
+    int size;
 };
 
 struct ScreenCoordinates worldToScreen(float worldX, float worldY, float worldZ) {
@@ -28,24 +29,24 @@ struct ScreenCoordinates worldToScreen(float worldX, float worldY, float worldZ)
     struct ScreenCoordinates screenCoords;
 
     //we setup debug symbols
-    circle(300,180,15);
-    rectangle(300,180,1,1);
-    setcolor(189);
-    rectangle(300 + (sin(camera.angle) * 15),180 + (cos(camera.angle)* 15),1,1);
-    setcolor(120);
+    // circle(300,180,15);
+    // rectangle(300,180,1,1);
+    // setcolor(189);
+    // rectangle(300 + (sin(camera.angle) * 15),180 + (cos(camera.angle)* 15),1,1);
+    // setcolor(120);
     float point_angle = atan2(worldX - camera.x,worldY - camera.y);
-    rectangle(300 + (-sin(point_angle) * 10),180 + (-cos(point_angle)* 10),1,1);
-    setcolor(255);
-    rectangle(300-15,180-20,30,0);
-    setcolor(189);
+    // rectangle(300 + (-sin(point_angle) * 10),180 + (-cos(point_angle)* 10),1,1);
+    // setcolor(255);
+    // rectangle(300-15,180-20,30,0);
+    // setcolor(189);
     float point = sin(point_angle-camera.angle);
-    screenCoords.y = (100 + worldZ) + camera.horizon;
-    char str[80];
+    screenCoords.y = (100 + worldZ) + camera.horizon + (camera.height / M_PI) - 25;
     float difference = (fmod(camera.angle,M_PI*2)-fmod(point_angle,M_PI*2) - M_PI);
-    sprintf(str, "%f", difference);
-    outtextxy( 10, 10 + (8*2), str);
-    difference = difference + cos(difference);
     screenCoords.x = (difference * (320/2)) + (320/2);
+    float dist = calculateDistance(worldX,worldY,worldZ,camera.x,camera.y,camera.height);
+    float size = 10;
+    size = size / map(dist,0,1024,0,128);
+    size = size * 10;
 
 
     if(camera.angle < point_angle){
@@ -54,6 +55,23 @@ struct ScreenCoordinates worldToScreen(float worldX, float worldY, float worldZ)
 
     return screenCoords;
 }
+
+float calculateDistance(float x1, float y1, float z1, float x2, float y2, float z2) {
+    float dx = x2 - x1;
+    float dy = y2 - y1;
+    float dz = z2 - z1;
+
+    return sqrt(dx * dx + dy * dy + dz * dz);
+}
+
+float map(float value, 
+                              float istart, 
+                              float istop, 
+                              float ostart, 
+                              float ostop) {
+    return ostart + (ostop - ostart) * ((value - istart) / (istop - istart));
+}
+
 
 
 int main( int argc, char* argv[] ) {
@@ -139,18 +157,21 @@ int main( int argc, char* argv[] ) {
             deltaz += 0.005f;
         }
 
-        setcolor( 255 );
-        char str[80];
-        sprintf(str, "X,Y,Z | %f, %f, %f", camera.x,camera.y,camera.height);
-        outtextxy( 10, 10, str);
+        // setcolor( 255 );
+        // char str[80];
+        // sprintf(str, "X,Y,Z | %f, %f, %f", camera.x,camera.y,camera.height);
+        // outtextxy( 10, 10, str);
 
-        char str2[80];
+        //char str2[80];
         struct ScreenCoordinates screenCoords = worldToScreen(434,164,-110);
-        sprintf(str2, "BX,BY,BD | %d, %d", screenCoords.x,screenCoords.y);
-        outtextxy( 10, 18, str2);
-
-        setcolor(255);
-        rectangle(screenCoords.x,screenCoords.y,10,10);
+        //outtextxy( 10, 18, str2);
+        float dist = calculateDistance(434,164,0,camera.x,camera.y,camera.height);
+        float size = 10;
+        size = size / map(dist,0,1024,0,128);
+        size = size * 10;
+        //sprintf(str2, "Size: %f",size);
+        //setcolor(255);
+        rectangle(screenCoords.x-size,screenCoords.y-size,size,size);
         
         
 
