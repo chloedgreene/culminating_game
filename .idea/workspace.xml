@@ -4,7 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="17de5c50-3827-4165-b873-c562d14df226" name="Changes" comment="" />
+    <list default="true" id="17de5c50-3827-4165-b873-c562d14df226" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/culminating" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dos.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dos.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dos.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/exec.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/app.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/awe32rom.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/crtemu_pc.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/crtframe.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/dr_wav.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/frametimer.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/gif_load.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/jar_mod.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/mus.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/opblib.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/opl.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/pixelfont.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/stb_textedit.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/thread.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/tml.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/tsf.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/once.sh" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -23,9 +47,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2aJXLtNsLfNB8P4Vo6BJ818PdRK" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -37,7 +61,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "dos",
+    "git-widget-placeholder": "language",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/chloe/Projects/culminating_game/lwjgl/lwjgl-release-3.3.3-custom/lwjgl.jar",
     "node.js.detected.package.eslint": "true",
@@ -82,6 +106,7 @@
       <option name="presentableId" value="Default" />
       <updated>1704037607888</updated>
       <workItem from="1704037609694" duration="2062000" />
+      <workItem from="1704120139877" duration="18000" />
     </task>
     <servers />
   </component>
