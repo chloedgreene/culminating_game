@@ -3523,7 +3523,9 @@ static int app_proc( app_t* app, void* user_data ) {
                 crtemu_pc_present( crt, crt_time_us, screen_xbgr, width, height, 0xffffff, 0xff000000 );
             #endif
         }
-        app_present( app, NULL, 1, 1, 0xffffff, 0xff1a1a1a );
+        //NOTE: CRT OFF AND ON
+        app_present( app, NULL, 1, 1, 0xffffff, 0xff1a1a1a ); // on
+        //app_present( app, screen_xbgr, width, height, 0xffffff, 0xff1a1a1a ); // off
     }
 
     app_sound( app, 0, NULL, NULL );
