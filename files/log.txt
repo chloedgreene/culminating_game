@@ -1,0 +1,6 @@
+07:26:32 PM: sqlite3 message: (1) no such table: project in "SELECT 1 FROM project LIMIT 1;"
+07:26:32 PM: File name is final.mp3
+07:26:32 PM: Mime type is *
+07:26:32 PM: Opening with libmpg123
+07:26:32 PM: Open(final.mp3) succeeded
+07:26:35 PM: Operation 'Importing MP3 files' took 3.107000 seconds. Poll was called 18115 times and took 0.569280 seconds. Yield was called 50 times and took 0.114615 seconds.
