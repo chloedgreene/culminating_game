@@ -123,7 +123,7 @@ void render(int mapwidth, int mapheight, uint8_t* screen){
 }
 
 void update_player(){
-    float speed = 0.1;
+    float speed = 0.05;
     if(keystate(KEY_SHIFT)){
         speed = 0;
     }
@@ -218,6 +218,7 @@ int main( int argc, char* argv[] ) {
 
     bool is_game = true;
     bool temple_map = true;
+    bool is_ending = false;
 
     init_and_play_music_main_game();
     while( !shuttingdown() ) {
@@ -226,34 +227,67 @@ int main( int argc, char* argv[] ) {
             setpal( 0, 12, 12, 12 ); // make the sky b l u e
         }
         waitvbl();
-        clearscreen();     
-        if(is_game){
-            update_player();
-            if(!temple_map){
-                srand(3152008);
-                for(int i = 0; i <= 150; i++){
-                    circle(rand() % 320,(rand() % 600) + camera.horizon - 600,(i % 2));
+        clearscreen();   
+
+        int star_fly = 0;
+
+        if (!is_ending){
+            if(is_game){
+                update_player();
+                if(!temple_map){
+                    srand(3152008);
+                    for(int i = 0; i <= 150; i++){
+                        circle(rand() % 320,(rand() % 600) + camera.horizon - 600,(i % 2));
+                    }
                 }
-            }
-            render(mapwidth,mapheight,screen); //proform the voxel space algorithem
-            float dist = calculateDistance(fmod(camera.x,1024),fmod(camera.y,1024),camera.height,433.3,168.7,99);
-            if(dist <= 100 && temple_map){
-                is_game = false;
+                render(mapwidth,mapheight,screen); //proform the voxel space algorithem
+                if(!temple_map){
+                    outtextxy(10,180,"When your ready, look up");
+                }
+                float dist = calculateDistance(fmod(camera.x,1024),fmod(camera.y,1024),camera.height,433.3,168.7,99);
+                if(dist <= 100 && temple_map){
+                    is_game = false;
+                }
+                if(camera.horizon >= 340){
+                    is_ending = true;
+                    is_game = false;
+                }
+            }else{
+                temple_map = false;
+
+                mapcol = loadgif( "files/canyon.gif", &mapwidth, &mapheight, &palcount, palette );    
+                mapalt = loadgif( "files/candept.gif", &mapwidth, &mapheight, NULL, NULL );  
+                is_game = true;
+
+                //reset pallete
+                for( int i = 0; i < palcount; ++i ) {
+                    setpal(i, palette[ 3 * i + 0 ],palette[ 3 * i + 1 ], palette[ 3 * i + 2 ] ); // load up the pallet with all the colours of the gifs
+                }
+                stopsound(2);
+                init_and_play_music_final_game();
             }
         }else{
-            temple_map = false;
-
-            mapcol = loadgif( "files/canyon.gif", &mapwidth, &mapheight, &palcount, palette );    
-            mapalt = loadgif( "files/candept.gif", &mapwidth, &mapheight, NULL, NULL );  
-            is_game = true;
-
-            //reset pallete
-            for( int i = 0; i < palcount; ++i ) {
-                setpal(i, palette[ 3 * i + 0 ],palette[ 3 * i + 1 ], palette[ 3 * i + 2 ] ); // load up the pallet with all the colours of the gifs
+            srand(3152008);
+            for(int i = 0; i <= 150; i++){
+                circle(rand() % 320,(rand() % 200+star_fly) + star_fly,(i % 2));
             }
-            stopsound(2);
-            init_and_play_music_final_game();
+            outtextxy(10,20 + 0,"I remember once me and my dad went");
+            outtextxy(10,20 + 8,"really north to the tip of quebec");
+            outtextxy(10,20 + 8*2,"and I saw the aurora for myself");
+            outtextxy(10,20 + 8*3,"in my uncles cottage in the middle");
+            outtextxy(10,20 + 8*4,"of nowhere.  once we went down south");
+            outtextxy(10,20 + 8*5,"to the grand canyon and saw it in");
+            outtextxy(10,20 + 8*6,"all its beauty, and for some reason");
+            outtextxy(10,20 + 8*7,"in my dreams/memories i confuse them");
+            outtextxy(10,20 + 8*8,"all and i see the northern lights in");
+            outtextxy(10,20 + 8*9,"the grand canyon.  ive always wanted");
+            outtextxy(10,20 + 8*10,"that momment to actually happen so i");
+            outtextxy(10,20 + 8*11,"tried making a game around that idea.");
+            outtextxy(10,20 + 8*12,"i know it was a pretty short experence");
+            outtextxy(10,20 + 8*13,"but i hope you enjoyed just walking");
+            outtextxy(10,20 + 8*14,"with chill music.");
         }
+
         screen = swapbuffers();
 
         if( keystate( KEY_ESCAPE ) )  {
